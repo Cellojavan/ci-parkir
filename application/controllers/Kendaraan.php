@@ -7,6 +7,7 @@ class Kendaraan extends CI_Controller{
         parent::__construct();
 
         $this->load->model("kendaraan_model");
+        $this->load->model("lokasi_model");
         $this->load->library("form_validation");
 
         if($this->session->userdata("hak_akses") == "admin"){
@@ -33,6 +34,7 @@ class Kendaraan extends CI_Controller{
     public function tambah(){
 
         $data['judul'] = "Halaman Tambah Kendaraan";
+        $data['lokasi'] = $this->lokasi_model->getAllLokasi();
         $this->form_validation->set_rules('lokasiid','Lokasi ID', 'required|numeric');
         $this->form_validation->set_rules('jeniskendaraan',' Jenis Kendaraan', 'required');
         $this->form_validation->set_rules('tarif',' Tarif Parkir', 'required|numeric');
@@ -54,7 +56,7 @@ class Kendaraan extends CI_Controller{
 
         $data['judul'] = "Halaman Ubah";
         $data['kendaraan'] = $this->kendaraan_model->GetById($id);
-        $data['lokasi'] = ['1', '2'];
+        $data['lokasi'] = $this->lokasi_model->getAllLokasi();
         $this->form_validation->set_rules('lokasiid','Lokasi ID', 'required|numeric');
         $this->form_validation->set_rules('jeniskendaraan',' Jenis Kendaraan', 'required');
         $this->form_validation->set_rules('tarif',' Tarif Parkir', 'required|numeric');
@@ -76,8 +78,15 @@ class Kendaraan extends CI_Controller{
 
         $this->db->where('id_jenis_kendaraan', $id);
         $this->db->delete("jenis_kendaraan");
-        $this->session->set_flashdata('flash', "Didelete");
-        redirect(base_url('kendaraan'));
+        $error = $this->db->error();
+        if($error['code'] != 0){
+            $this->session->set_flashdata('error', 'Data tidak dapat dihapus (Sudah Berelasi)');
+            redirect(base_url('kendaraan'));
+        }else{
+            
+            $this->session->set_flashdata('flash', "Didelete");
+            redirect(base_url('kendaraan'));
+        }
     }
 }
 

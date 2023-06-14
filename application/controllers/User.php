@@ -43,10 +43,20 @@ class User extends CI_Controller {
             $this->load->view('templates/footer2');
         
         }else{
+            
+            $query = $this->user_model->cekUser();
+            if($query->num_rows() == 1 ){
 
-            $this->user_model->tambahUser();
-            $this->session->set_flashdata('flash', 'Ditambahkan');
-            redirect(base_url());
+                $this->session->set_flashdata('cek', 'Digunakan');
+                redirect(base_url('user/tambah'));
+
+            }else{
+
+                $this->user_model->tambahUser();
+                $this->session->set_flashdata('flash', 'Ditambahkan');
+                redirect(base_url());
+
+            }
         }
 
     }
@@ -56,6 +66,8 @@ class User extends CI_Controller {
         $data['judul'] = 'Halaman edit';
         $data['user'] = $this->user_model->getById($id);
         $data['akses'] = ['admin', 'petugas', 'manager'];
+        $idk = $this->input->post('id');
+        $user = $this->input->post('username');
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
@@ -71,9 +83,29 @@ class User extends CI_Controller {
         
         }else{
 
-            $this->user_model->ubahUser();
-            $this->session->set_flashdata('flash', 'Diubah');
-            redirect(base_url());
+            $query = $this->user_model->cekUser();
+            if($query->num_rows() == 1 ){
+                $cek = $this->user_model->getByIdk($idk);
+                if($cek['username'] == $user){
+
+                    $this->user_model->ubahUser($idk,$user);
+                    $this->session->set_flashdata('flash', 'Diubah');
+                    redirect(base_url());
+             
+                }else{
+              
+                    $this->session->set_flashdata('cek', 'Digunakan');
+                    redirect(base_url('user/edit/'.$id));
+              
+                }
+                
+
+            }else{
+
+                $this->user_model->ubahUser($idk,$user);
+                $this->session->set_flashdata('flash', 'Diubah');
+                redirect(base_url());
+            }
         }
 
     }
@@ -82,8 +114,11 @@ class User extends CI_Controller {
 
         $this->db->where('id_user', $id);
         $this->db->delete('user');
-        $this->session->set_flashdata('flash', 'Dihapus');
-        redirect(base_url());
+        $eror = $this->db->error();
+       
+
+            $this->session->set_flashdata('flash', 'Dihapus');
+            redirect(base_url());
     }
 
 

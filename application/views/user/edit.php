@@ -1,14 +1,54 @@
 
-<div class="container" style="margin-top: 30px">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-        <div class="card">
-    <div class="card-header">
-        Form Ubah Data User
-    </div>
-    <div class="card-body">
+      <!-- /.sidebar-menu -->
+      </div>
+    <!-- /.sidebar -->
+  </aside>
 
-       <form action="" method="post">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="m-0">Edit User</h5>
+              </div>
+              <div class="card-body">
+                <?php if($this->session->flashdata('flash')) :?>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  Data berhasil <strong><?= $this->session->flashdata('flash');?></strong> 
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <?php endif ?>
+                <?php if($this->session->flashdata('cek')) :?>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  Username sudah <strong><?= $this->session->flashdata('cek');?></strong> 
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <?php endif ?>
+                <form action="" method="post">
        <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name"  name="name" value="<?= $user['nama_user']?>" placeholder="Enter Name" autocomplete="off">
@@ -20,10 +60,17 @@
             <input type="text" class="form-control" id="username"  name="username" value="<?= $user['username']?>" placeholder="Enter Username" autocomplete="off">
             <small class="form-text text-danger"><?= form_error('username'); ?></small>
         </div>
-       <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password"  name="password" value="<?= $user['password']?>" placeholder="Enter Password" autocomplete="off">
-            <small class="form-text text-danger"><?= form_error('password'); ?></small>
+        <label for="">Password</label>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" value="<?= $user['password']?>" name="password" placeholder="Password" autocomplete="off" id="pass">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <a href="#" class="text-dark" id="icon-click">
+                <i class="fas fa-eye" id="icon"></i>
+              </a>
+            </div>
+          </div>
+          <small class="form-text text-danger"><?= form_error('password'); ?></small>
         </div>
        <div class="form-group">
             <label for="email">Email</label>
@@ -52,9 +99,49 @@
         <button class="btn btn-warning" type="reset">RESET</button>
         <a href="<?= base_url() ?>" class="btn btn-danger">BACK</a>   
     </form>
-    </div>
-    </div>
+                        
+              </div>
+            </div>
+          </div>
+          <!-- /.col-md-6 -->
         </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
-</div>
-s
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <script
+  src="https://code.jquery.com/jquery-3.6.4.min.js"
+  integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+  crossorigin="anonymous">
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $("#icon-click").click(function(){
+      $("#icon").toggleClass("fa-eye-slash");
+
+      var input = $("#pass");
+      if(input.attr("type")==="password"){
+        input.attr("type","text");
+      }
+      else{
+        input.attr("type","password");
+      }
+
+    });
+  });
+</script>

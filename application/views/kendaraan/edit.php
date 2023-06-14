@@ -1,140 +1,6 @@
 
-<div class="wrapper">
-
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="<?= base_url()?>/dist/img/2526586_transportation_vehicle_icon.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Parkir</span>
-    </a>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="<?= base_url()?>/dist/img/352174_user_icon.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <?php if($this->session->userdata("hak_akses") == "admin") {?>
-          <a href="#" class="d-block">Admin</a>
-          <?php } ?>
-          <?php if($this->session->userdata("hak_akses") == "petugas") {?>
-          <a href="#" class="d-block">Petugas</a>
-          <?php } ?>
-          <?php if($this->session->userdata("hak_akses") == "manager") {?>
-          <a href="#" class="d-block">Manager</a>
-          <?php } ?>
-        </div>
-      </div>
-
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-               <?php if($this->session->userdata("hak_akses") == "admin") { ?>
-                <li class="nav-item">
-                    <a href="<?= base_url()?>lokasi" class="nav-link">
-                    <i class="fas fa-map-marker-alt">&nbsp&nbsp</i>
-                    <p>
-                        Lokasi
-                    </p>
-                    </a>       
-                </li>
-               <li class="nav-item">
-                    <a href="<?= base_url()?>kendaraan" class="nav-link">
-                    <i class="fas fa-car">&nbsp</i>    
-                    <p>
-                        Jenis Kendaraan
-                    </p>
-                    </a>       
-                </li>
-               <li class="nav-item">
-                    <a href="<?= base_url()?>parkir" class="nav-link">
-                    <i class="fas fa-parking">&nbsp&nbsp</i>
-                    <p>
-                        Parkir
-                    </p>
-                    </a>       
-                </li>
-               <li class="nav-item">
-                    <a href="<?= base_url()?>petugas" class="nav-link">
-                    <i class="fas fa-user-cog">&nbsp</i>
-                    <p>
-                        Petugas
-                    </p>
-                    </a>       
-                </li>
-               <li class="nav-item">
-                    <a href="<?= base_url()?>lokasi" class="nav-link">
-                    <i class="fas fa-users">&nbsp</i>
-                    <p>
-                        User
-                    </p>
-                    </a>       
-                </li>
-              <?php } ?>
-              <?php if($this->session->userdata("hak_akses") == "manager") { ?>
-               <li class="nav-item">
-                    <a href="<?= base_url()?>kendaraan" class="nav-link">
-                    <i class="fas fa-car">&nbsp</i>    
-                    <p>
-                        Jenis Kendaraan
-                    </p>
-                    </a>       
-                </li>
-               <li class="nav-item">
-                    <a href="<?= base_url()?>parkir" class="nav-link">
-                    <i class="fas fa-parking">&nbsp&nbsp</i>
-                    <p>
-                        Parkir
-                    </p>
-                    </a>       
-                </li>
-               <li class="nav-item">
-                    <a href="<?= base_url()?>petugas" class="nav-link">
-                    <i class="fas fa-user-cog">&nbsp</i>
-                    <p>
-                        Petugas
-                    </p>
-                    </a>       
-                </li>
-              <?php } ?>
-              <?php if($this->session->userdata("hak_akses") == "petugas") { ?>
-                <li class="nav-item">
-                    <a href="<?= base_url()?>parkir" class="nav-link">
-                    <i class="fas fa-parking">&nbsp&nbsp</i>
-                    <p>
-                        Parkir
-                    </p>
-                    </a>       
-                </li>
-              <?php } ?>
-               
-        </ul>
-      </nav>
       <!-- /.sidebar-menu -->
-    </div>
+      </div>
     <!-- /.sidebar -->
   </aside>
 
@@ -145,12 +11,10 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Starter Page</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
+            
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -165,7 +29,7 @@
           <div class="col-lg-12">
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="m-0">Edit Jenis Kendaraan</h5>
+                <h5 class="m-0">Edit Kendaraan</h5>
               </div>
               <div class="card-body">
     
@@ -187,19 +51,16 @@
                 <?php endif ?>
                 <form action="" method="post">
                 <div class="form-group">
-                        <label for="lokasiid">Lokasi ID</label>
-                        <small  class="form-text text-muted">1 : Trenggalek</small>
-                        <small  class="form-text text-muted">2 : Sidoarjo</small>
+                        <label for="lokasiid">Lokasi </label>
                         <select class="form-control" name="lokasiid" id="lokasiid">
-                            <?php foreach($lokasi as $lks): ?>
-                            <?php if($lks == $kendaraan['lokasi_id']):?>
-                                <option value="<?= $lks; ?>"selected><?= $lks; ?></option>
+                          <?php foreach($lokasi as $lks) :?>
+                            <?php if($lks['id_lokasi'] == $kendaraan['lokasi_id']) : ?>
+                              <option value="<?=$lks['id_lokasi']?>"selected><?= $lks['nama_lokasi'] ?></option>
                             <?php else :?>
-                                <option value="<?= $lks; ?>"><?= $lks; ?></option>
-                            <?php endif; ?>
-                            <?php endforeach; ?>
+                              <option value="<?=$lks['id_lokasi']?>"><?= $lks['nama_lokasi'] ?></option>
+                            <?php endif ?>  
+                          <?php endforeach ?> 
                         </select>
-                        <input type="hidden" name="id"  value ="<?= $kendaraan['id_jenis_kendaraan']?>">           
                         <small class="form-text text-danger"><?= form_error('lokasiid'); ?></small>
                     </div>
 

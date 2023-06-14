@@ -22,15 +22,34 @@ class lokasi_model extends CI_model{
 
         return $this->db->get_where('lokasi', ["id_lokasi" => $id])->row_array();
     }
+    public function getByIdk($idk){
 
-    public function editLokasi(){
+        return $this->db->get_where('lokasi', ["id_lokasi" => $idk])->row_array();
+    }
 
-        $data=[
+    
+    public function cekLokasi(){
+
+        $data = [
 
             "nama_lokasi" => $this->input->post("namelokasi"),
         ];
 
-        $this->db->where("id_lokasi" , $this->input->post("id"));
+        $this->db->select("*");
+        $this->db->from("lokasi");
+        $this->db->where($data);
+        $this->db->limit("1");
+        return $this->db->get();
+    }
+
+    public function editLokasi($idk,$user){
+
+        $data=[
+
+            "nama_lokasi" => $user,
+        ];
+
+        $this->db->where("id_lokasi" , $idk);
         $this->db->update("lokasi", $data);
     }
 
