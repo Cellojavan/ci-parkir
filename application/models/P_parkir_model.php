@@ -16,6 +16,7 @@ class P_parkir_model extends CI_model{
         $query = $this->db->query("SELECT * FROM pengelolaan_parkir
         JOIN jenis_kendaraan ON jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id 
         JOIN lokasi ON lokasi.id_lokasi = pengelolaan_parkir.lokasi_id 
+        ORDER BY tgl_in DESC
         LIMIT $awalData, $jumlahDataPerhalaman ");
         return $query->result_array();
     }
@@ -145,6 +146,7 @@ class P_parkir_model extends CI_model{
         WHERE 
         tgl_in LIKE '$dari%' OR
         tgl_in LIKE '$ke%'
+        ORDER BY tgl_in DESC
         LIMIT $awalData, $jumlahDataPerhalaman ");
         return $query->result_array();
     }
@@ -179,6 +181,7 @@ class P_parkir_model extends CI_model{
         JOIN lokasi ON lokasi.id_lokasi = pengelolaan_parkir.lokasi_id 
         WHERE 
         nopol LIKE '%$keywoard%'
+        ORDER BY tgl_in DESC
         LIMIT $awalData, $jumlahDataPerhalaman ");
         return $query->result_array();
     }
@@ -197,6 +200,7 @@ class P_parkir_model extends CI_model{
         JOIN lokasi ON lokasi.id_lokasi = pengelolaan_parkir.lokasi_id 
         WHERE 
         id_lokasi LIKE '$hasil'
+        ORDER BY tgl_in DESC
         LIMIT $awalData, $jumlahDataPerhalaman ");
         return $query->result_array();
     
@@ -221,6 +225,7 @@ class P_parkir_model extends CI_model{
         WHERE 
         id_lokasi LIKE '$hasil' AND
         nopol LIKE '%$keywoard%'
+        ORDER BY tgl_in DESC
         LIMIT $awalData, $jumlahDataPerhalaman ");
         return $query->result_array();
     }
@@ -233,6 +238,7 @@ class P_parkir_model extends CI_model{
         id_lokasi LIKE '$hasil' AND
         tgl_in LIKE '$dari%' AND
         tgl_in LIKE '$ke%'
+        ORDER BY tgl_in DESC
         LIMIT $awalData, $jumlahDataPerhalaman ");
         return $query->result_array();
     }

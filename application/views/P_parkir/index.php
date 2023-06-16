@@ -37,7 +37,7 @@
           <div class="col-lg-12">
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="m-0">Data Petugas</h5>
+                <h5 class="m-0">Data Parkir</h5>
               </div>
               <div class="card-body">
 
@@ -204,9 +204,6 @@
                 </nav>
                 <?php } ?>
 
-                <?= $this->session->userdata('dari');?>
-                <?= $this->session->userdata('ke');?>
-                <?= $this->session->userdata('keywoard');?>
                 
                   <table class="table table-bordered table-responsive">
                       <thead>
@@ -252,7 +249,11 @@
                               <td><img src="<?= base_url().'/dist/img/fotomasuk/'.$pkr['foto_in']?>" width="150" ></td>
                               <td><?= $pkr['tgl_out'] ?></td>
                               <td><?= $pkr['petugas_out'] ?></td>
-                              <td><img src="<?= base_url().'/dist/img/fotoout/'.$pkr['foto_out']?>" width="150" ></td>
+                              <td><?php if($pkr['foto_out'] == null) :?>
+                                  <img src="<?= base_url().'/dist/img/fotoout/user_blank.png'?>" width="80" center ></td>
+                              <td><?php else:?>
+                                  <img src="<?= base_url().'/dist/img/fotoout/'.$pkr['foto_out']?>" width="150" ></td>
+                              <td><?php endif?>
                               <td><?= $pkr['nopol'] ?></td>
                               <td><?= $pkr['nama_lokasi'] ?></td>
                               <td><?= $pkr['jenis_kendaraan'] ?></td>

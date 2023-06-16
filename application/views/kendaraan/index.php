@@ -51,7 +51,7 @@
                 <?php endif ?>
                 <?php if($this->session->flashdata('login')) :?>
                   <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  <?= $this->session->flashdata('login');?>&nbsp<strong><?= $this->session->userdata('hak_akses');?></strong> 
+                  <?= $this->session->flashdata('login');?>&nbsp<strong><?= $this->session->userdata('nama_user');?></strong> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>

@@ -58,6 +58,19 @@
                 <?php endif ?>
               <a href="<?= base_url('')?>user/tambah" class="btn btn-primary mb-3 ">Tambah User</a>
 
+              <div class="row">
+                  <div class="col-md-5">
+                    <form action="" method="post">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="keyword" placeholder="Search" autocomplete="off">
+                        <div class="input-group-append">
+                          <input type="submit" class="btn btn-primary"  name="submit">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
               <table class="table table-bordered">
                 <thead>
                     <tr>

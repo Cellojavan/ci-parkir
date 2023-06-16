@@ -29,7 +29,7 @@ class P_parkir extends CI_Controller{
 
             $cariname = $this->P_parkir_model->getByName();
             $hasil = $cariname['lokasi_id'];
-            $jumlahDataPerhalaman = 2;
+            $jumlahDataPerhalaman = 4;
             $jmlh1 = $this->P_parkir_model->get_lokasi($hasil);
             $jumlahData = $jmlh1;
             $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
@@ -52,7 +52,7 @@ class P_parkir extends CI_Controller{
             $cariname = $this->P_parkir_model->getByName();
             $hasil = $cariname['lokasi_id'];
             $jmlh2 = $this->P_parkir_model->TotalRowskeyword1($keywoard,$hasil);
-            $jumlahDataPerhalaman = 2;
+            $jumlahDataPerhalaman = 4;
             $jumlahData = $jmlh2;
             $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
 
@@ -77,7 +77,7 @@ class P_parkir extends CI_Controller{
                 $cariname = $this->P_parkir_model->getByName();
                 $hasil = $cariname['lokasi_id'];
                 $jmlh3 = $this->P_parkir_model->TotalRows1($dari,$ke,$hasil);
-                $jumlahDataPerhalaman = 2;
+                $jumlahDataPerhalaman = 4;
                 $jumlahData = $jmlh3;
                 $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
 
@@ -117,7 +117,7 @@ class P_parkir extends CI_Controller{
         }else{
 
 
-            $jumlahDataPerhalaman = 2;
+            $jumlahDataPerhalaman = 4;
             $jumlahData = $jmlh;
             $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
             $halamanAktif = ( isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
@@ -137,7 +137,7 @@ class P_parkir extends CI_Controller{
             $this->session->unset_userdata('ke');
             $this->session->set_userdata('keywoard',$keywoard);
             $jmlh = $this->P_parkir_model->TotalRowskeyword($keywoard);
-            $jumlahDataPerhalaman = 2;
+            $jumlahDataPerhalaman = 4;
             $jumlahData = $jmlh;
             $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
 
@@ -161,7 +161,7 @@ class P_parkir extends CI_Controller{
                 $this->session->set_userdata('dari',$dari);
                 $this->session->set_userdata('ke',$ke);
                 $jmlh = $this->P_parkir_model->TotalRows($dari,$ke);
-                $jumlahDataPerhalaman = 2;
+                $jumlahDataPerhalaman = 4;
                 $jumlahData = $jmlh;
                 $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
 
@@ -277,6 +277,7 @@ class P_parkir extends CI_Controller{
 
         $data['judul'] = 'Foto Keluar';
         $data['parkir'] = $this->P_parkir_model->getById($id);
+        $parkir = $this->P_parkir_model->getById($id);
         $this->form_validation->set_rules('tglout', 'Tanggal Out', 'required');
         if($this->form_validation->run() == FALSE){
 

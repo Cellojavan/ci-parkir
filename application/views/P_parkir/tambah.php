@@ -140,7 +140,7 @@ $this->load->view('templates/header2',$judul);
                         </select>
 						<div class="form-group">
 							<label for="tarif">Tarif</label>
-							<input type="text" value="<?=$this->input->get('nim')?>" class="form-control" id="tarif"  name="tarif">
+							<input type="text" value="<?=$this->input->get('nim')?>" class="form-control" id="tarif"  name="tarif" readonly>
 							<small class="form-text text-danger"><?= form_error('tarif'); ?></small>
                     	</div>
 

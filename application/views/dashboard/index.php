@@ -18,7 +18,15 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-12">
+          <?php if($this->session->flashdata('login')) :?>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <?= $this->session->flashdata('login');?>&nbsp<strong><?= $this->session->userdata('nama_user');?></strong> 
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            <?php endif ?>
           </div><!-- /.col -->
           <div class="col-sm-6">
 
