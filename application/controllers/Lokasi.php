@@ -20,10 +20,51 @@ class Lokasi extends CI_Controller{
     public function index(){
 
         $data['judul'] = "Halaman Lokasi";
-        $data['lokasi'] = $this->lokasi_model->getAllLokasi();
-        $this->load->view('templates/header',$data);
-        $this->load->view('lokasi/index',$data);
-        $this->load->view('templates/footer');
+        $jumlahDataPerhalaman = 4;
+        $jmlh = $this->lokasi_model->row_lokasi();
+        $jumlahData = $jmlh;
+        $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
+        $halamanAktif = ( isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+        $awalData = ( $jumlahDataPerhalaman * $halamanAktif ) - $jumlahDataPerhalaman;
+        $data['jumlahHalaman1'] = $jumlahHalaman;    
+        $data['halamanAktif1'] = $halamanAktif;    
+        $data['jumlahDataPerhalaman'] = $jumlahDataPerhalaman;    
+        $data['lokasi'] = $this->lokasi_model->getAllLokasi($awalData,$jumlahDataPerhalaman);
+        $keywoard = $this->input->post('keywoard');
+
+        if($this->input->post('submit')){
+
+            $this->session->set_userdata('keywoardlokasi',$keywoard);
+
+            if($keywoard == null){
+
+                $this->session->unset_userdata('keywoardlokasi');
+                $this->session->unset_userdata('jumlahhalamanlokasi');
+            
+            }else{
+                $jmlh1 = $this->lokasi_model->row_lokasi_keywoard($keywoard);
+                $jumlahData1 = $jmlh1;
+                $jumlahHalaman1 = ceil($jumlahData1 / $jumlahDataPerhalaman);
+                $this->session->set_userdata('jumlahhalamanlokasi',$jumlahHalaman1);
+                $jumlahHalaman11 = $this->session->userdata('jumlahhalamanlokasi');
+                $data['jumlahHalaman1'] = $jumlahHalaman11;    
+                $data['lokasi'] = $this->lokasi_model->getLokasiKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+
+            }
+            $this->load->view('templates/header',$data);
+            $this->load->view('lokasi/index',$data);
+            $this->load->view('templates/footer');
+
+        }else{
+            if($this->session->userdata('keywoardlokasi') !== null){
+                $keywoard = $this->session->userdata('keywoardlokasi');
+                $data['lokasi'] = $this->lokasi_model->getLokasiKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+
+            }   
+            $this->load->view('templates/header',$data);
+            $this->load->view('lokasi/index',$data);
+            $this->load->view('templates/footer');
+        }
 
     }
 

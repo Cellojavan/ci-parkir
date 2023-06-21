@@ -55,6 +55,97 @@
                 </div>
                 <?php endif ?>
               <a href="<?= base_url('')?>lokasi/tambah" class="btn btn-primary mb-3 ">Tambah Lokasi</a>
+              
+              <div class="row">
+                  <div class="col-md-5">
+                    <form action="" method="post">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="keywoard" placeholder="Search" autocomplete="off">
+                        <div class="input-group-append">
+                          <input type="submit" class="btn btn-primary"  name="submit">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+
+                <nav aria-label="...">
+                <ul class="pagination">
+                <?php if($this->input->post('submit') !== null) : ?>
+                  <?php redirect(base_url('lokasi?halaman=1'))?>
+                <?php endif?>
+                  
+                  
+                 
+                  <?php if($this->session->userdata('jumlahhalamanlokasi') !== null) :?>
+                    <?php $halamansesi = $this->session->userdata('jumlahhalamanlokasi')?>
+                    
+                    <?php if($halamansesi == 1) : ?>
+
+                    <?php else : ?>
+                      <?php if($halamanAktif1 > 1) : ?>
+                        <li class="page-item">
+                          <a class="page-link" href="?halaman=<?=$halamanAktif1 - 1;?>">&laquo <span class="sr-only">(current)</span></a>
+                        </li>
+                      <?php endif?>
+                    <?php ?>
+                      <?php for( $i = 1; $i <= $halamansesi; $i++ ) :?>
+                      <?php if($i == $halamanAktif1 ) :?>
+                        <li class="page-item active">
+                          <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
+                        </li>
+                      <?php else :?>
+                        <li class="page-item">
+                          <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
+                        </li>
+                      <?php endif ;?>
+                      <?php endfor?>
+                      <?php if($halamanAktif1 < $halamansesi) : ?>
+                        <li class="page-item">
+                          <a class="page-link" href="?halaman=<?=$halamanAktif1 + 1 ;?>">&raquo <span class="sr-only">(current)</span></a>
+                        </li>
+                      <?php endif?>
+                    <?php endif ?>
+                    
+
+
+                  <?php else :?>
+
+                    <?php if($jumlahHalaman1 == 1) : ?>
+
+                    <?php else : ?>
+                      <?php if($halamanAktif1 > 1) : ?>
+                      <li class="page-item">
+                        <a class="page-link" href="?halaman=<?=$halamanAktif1 - 1;?>">&laquo <span class="sr-only">(current)</span></a>
+                      </li>
+                    <?php endif?>
+                  <?php ?>
+                    <?php for( $i = 1; $i <= $jumlahHalaman1; $i++ ) :?>
+                    <?php if($i == $halamanAktif1 ) :?>
+                      <li class="page-item active">
+                        <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
+                      </li>
+                    <?php else :?>
+                      <li class="page-item">
+                        <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
+                      </li>
+                    <?php endif ;?>
+                    <?php endfor?>
+                    <?php if($halamanAktif1 < $jumlahHalaman1) : ?>
+                      <li class="page-item">
+                        <a class="page-link" href="?halaman=<?=$halamanAktif1 + 1 ;?>">&raquo <span class="sr-only">(current)</span></a>
+                      </li>
+                    <?php endif?>
+                    <?php endif ?>
+                
+
+                    
+                  <?php endif?>
+               
+                </ul>
+                </nav>
+                </nav>
       
               <table class="table table-bordered">
                 <thead>
@@ -65,10 +156,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 1;?>
+                <?php if(empty($lokasi)): ?>
+                      
+                      <div class="alert alert-danger" role="alert">
+                          Data not found!
+                      </div>
+                    
+                <?php endif ;?>
+                <?php $id = ($jumlahDataPerhalaman * $halamanAktif1) - 3; ?>
                     <?php foreach($lokasi as $loka) : ?>
                     <tr>
-                        <td><?= $i++;?></td>
+                        <td><?= $id++;?></td>
                         <td><?= $loka['nama_lokasi'] ?></td>
                         <td>
                             <a href="<?= base_url()?>lokasi/edit/<?= $loka['id_lokasi']?>" class="btn btn-warning">Edit</a>

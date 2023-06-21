@@ -36,12 +36,13 @@ class P_parkir extends CI_Controller{
             $halamanAktif = ( isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
             $awalData = ( $jumlahDataPerhalaman * $halamanAktif ) - $jumlahDataPerhalaman;
             $data['jumlahHalaman1'] = $jumlahHalaman;    
-            $data['halamanAktif1'] = $halamanAktif;    
+            $data['halamanAktif1'] = $halamanAktif;   
+            $data['jumlahDataPerhalaman'] = $jumlahDataPerhalaman; 
             $data['parkir'] = $this->P_parkir_model->get_lokasi22($hasil,$awalData,$jumlahDataPerhalaman); 
             $data['judul'] = 'Pengelolaan Parkir';
-            $dari = $this->input->post('dari');
+            $dari = $this->input->get('dari');
             $keywoard = $this->input->post('keyword');
-            $ke = $this->input->post('ke');
+            $ke = $this->input->get('ke');
         
         
         if($this->input->post('submit')){      
@@ -70,7 +71,7 @@ class P_parkir extends CI_Controller{
             
         }else{
             
-            if($this->input->post('cari')){
+            if($this->input->get('cari')){
                 $this->session->unset_userdata('keywoard');
                 $this->session->set_userdata('dari',$dari);
                 $this->session->set_userdata('ke',$ke);
@@ -124,11 +125,12 @@ class P_parkir extends CI_Controller{
             $awalData = ( $jumlahDataPerhalaman * $halamanAktif ) - $jumlahDataPerhalaman;
             $data['jumlahHalaman'] = $jumlahHalaman;    
             $data['halamanAktif'] = $halamanAktif;    
+            $data['jumlahDataPerhalaman'] = $jumlahDataPerhalaman; 
             $data['parkir'] = $this->P_parkir_model->perPage($awalData,$jumlahDataPerhalaman); 
             $data['judul'] = 'Pengelolaan Parkir';
-            $dari = $this->input->post('dari');
+            $dari = $this->input->get('dari');
             $keywoard = $this->input->post('keyword');
-            $ke = $this->input->post('ke');
+            $ke = $this->input->get('ke');
         
         
         if($this->input->post('submit')){
@@ -156,7 +158,7 @@ class P_parkir extends CI_Controller{
             
         }else{
             
-            if($this->input->post('cari')){
+            if($this->input->get('cari')){
                 $this->session->unset_userdata('keywoard');
                 $this->session->set_userdata('dari',$dari);
                 $this->session->set_userdata('ke',$ke);
@@ -303,7 +305,7 @@ class P_parkir extends CI_Controller{
 					list(, $data)      = explode(',', $data);
 					$data = base64_decode($data);
 					file_put_contents('./dist/img/fotoout/'.$foto, $data);
-                    $this->session->set_flashdata('flashh','Masuk');
+                    $this->session->set_flashdata('flashh','Keluar');
                     redirect(base_url('P_parkir'));
 				}
 				else{

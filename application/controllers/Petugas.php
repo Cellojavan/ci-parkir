@@ -24,17 +24,55 @@ class Petugas extends CI_Controller{
     public function index(){
 
         $data['judul'] = 'Data Petugas';
-        $data['petugas'] = $this->petugas_model->getPetugas();
-        $this->load->view('templates/header',$data);
-        $this->load->view('petugas/index',$data);
-        $this->load->view('templates/footer');
+        $jumlahDataPerhalaman = 4;
+        $jmlh = $this->petugas_model->row_petugas();
+        $jumlahData = $jmlh;
+        $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
+        $halamanAktif = ( isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+        $awalData = ( $jumlahDataPerhalaman * $halamanAktif ) - $jumlahDataPerhalaman;
+        $data['jumlahHalaman1'] = $jumlahHalaman;   
+        $data['halamanAktif1'] = $halamanAktif;    
+        $data['jumlahDataPerhalaman'] = $jumlahDataPerhalaman;    
+        $data['petugas'] = $this->petugas_model->getAllPetugas($awalData,$jumlahDataPerhalaman);
+        $keywoard = $this->input->post('keywoard');
+
+        if($this->input->post('submit')){
+
+            $this->session->set_userdata('keywoardpetugas',$keywoard);
+
+            if($keywoard == null){
+                $this->session->unset_userdata('keywoardpetugas');
+                $this->session->unset_userdata('jumlahhalamanpetugas');
+            }else{
+                $jmlh1 = $this->petugas_model->row_petugas_keywoard($keywoard);
+                $jumlahData1 = $jmlh1;
+                $jumlahHalaman1 = ceil($jumlahData1 / $jumlahDataPerhalaman);
+                $this->session->set_userdata('jumlahhalamanpetugas',$jumlahHalaman1);
+                $jumlahHalaman11 = $this->session->userdata('jumlahhalamanpetugas');
+                $data['jumlahHalaman1'] = $jumlahHalaman11;
+                $data['petugas'] = $this->petugas_model->getPetugasKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+            }
+            $this->load->view('templates/header',$data);
+            $this->load->view('petugas/index',$data);
+            $this->load->view('templates/footer');
+
+        }else{
+
+            if($this->session->userdata('keywoardpetugas') !== null){
+                $keywoard = $this->session->userdata('keywoardpetugas');
+                $data['petugas'] = $this->petugas_model->getPetugasKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+            }
+            $this->load->view('templates/header',$data);
+            $this->load->view('petugas/index',$data);
+            $this->load->view('templates/footer');
+        }
 
     }
 
     public function tambah(){
 
         $data['judul'] = "Tambah Data Petugas";
-        $data['lokasi'] = $this->lokasi_model->getAllLokasi();
+        $data['lokasi'] = $this->lokasi_model->getAllLokasi2();
         $data['petugas'] = $this->petugas_model->tampilPetugas();
         $this->form_validation->set_rules('namapetugas', 'Nama Petugas', 'required');
         $this->form_validation->set_rules('lokasiid', 'Lokasi Id', 'required|numeric');

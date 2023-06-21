@@ -3,9 +3,39 @@
 class user_model extends CI_Model {
 
 
-    public function getAllUser(){
+    public function getAllUser($awalData,$jumlahDataPerhalaman){
 
-        return $query = $this->db->get('user')->result_array();;
+        $query = $this->db->query("SELECT * FROM user
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
+    }
+
+    public function getUserKeywoard($keywoard,$awalData,$jumlahDataPerhalaman){
+        $query = $this->db->query("SELECT * FROM user
+        WHERE
+        nama_user LIKE '$keywoard' OR
+        username LIKE '$keywoard' OR
+        email LIKE '%$keywoard%' OR
+        no_wa LIKE '%$keywoard%' OR
+        hak_akses LIKE '$keywoard'
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
+    }
+
+    public function row_user(){
+        return $query = $this->db->get('user')->num_rows();;
+
+    }
+    public function row_user_keywoard($keywoard){
+        $query = $this->db->query("SELECT * FROM user
+        WHERE
+        nama_user LIKE '$keywoard' OR
+        username LIKE '$keywoard' OR
+        email LIKE '%$keywoard%' OR
+        no_wa LIKE '%$keywoard%' OR
+        hak_akses LIKE '$keywoard' ");
+        return $query->num_rows();
+
     }
 
     public function tambahUser(){

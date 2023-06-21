@@ -62,7 +62,7 @@
                   <div class="col-md-5">
                     <form action="" method="post">
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Search" autocomplete="off">
+                        <input type="text" class="form-control" name="keywoard" placeholder="Search" autocomplete="off">
                         <div class="input-group-append">
                           <input type="submit" class="btn btn-primary"  name="submit">
                         </div>
@@ -71,7 +71,44 @@
                   </div>
                 </div>
 
-              <table class="table table-bordered">
+
+                <nav aria-label="...">
+                <ul class="pagination">
+                <?php if($this->input->post('submit') !== null) : ?>
+                  <?php redirect(base_url('user?halaman=1'))?>
+                <?php endif?>
+                  
+                <?php if($jumlahHalaman == 1) : ?>
+
+                <?php else : ?>
+                  <?php if($halamanAktif > 1) : ?>
+                  <li class="page-item">
+                    <a class="page-link" href="?halaman=<?=$halamanAktif - 1;?>">&laquo <span class="sr-only">(current)</span></a>
+                  </li>
+                <?php endif?>
+               <?php ?>
+                <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) :?>
+                <?php if($i == $halamanAktif ) :?>
+                  <li class="page-item active">
+                    <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
+                  </li>
+                <?php else :?>
+                  <li class="page-item">
+                    <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
+                  </li>
+                <?php endif ;?>
+                <?php endfor?>
+                <?php if($halamanAktif < $jumlahHalaman) : ?>
+                  <li class="page-item">
+                    <a class="page-link" href="?halaman=<?=$halamanAktif + 1 ;?>">&raquo <span class="sr-only">(current)</span></a>
+                  </li>
+                <?php endif?>
+                <?php endif?>
+               
+                </ul>
+                </nav>
+                <table class="table table-bordered">
+                <?= $this->input->post('keywoard')?>
                 <thead>
                     <tr>
                         <th scope="col">No</th>
@@ -85,10 +122,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php if(empty($user)): ?>
+                      
+                      <div class="alert alert-danger" role="alert">
+                          Data not found!
+                      </div>
+                    
+                <?php endif ;?>
+                <?php $id = ($jumlahDataPerhalaman * $halamanAktif) - 3; ?>
                     <?php $i = 1;?>
                     <?php foreach($user as $us) : ?>
                     <tr>
-                        <td><?= $i++;?></td>
+                        <td><?= $id++;?></td>
                         <td><?= $us['nama_user'] ?></td>
                         <td><?= $us['username'] ?></td>
                         <td><?= $us['password'] ?></td>

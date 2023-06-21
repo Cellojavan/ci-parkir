@@ -10,6 +10,47 @@ class kendaraan_model extends CI_model{
         return $this->db->get()->result_array();
     }
 
+    public function row_kendaraan_keywoard($keywoard){
+
+        $this->db->select("*");
+        $this->db->from("jenis_kendaraan");
+        $this->db->join("lokasi", "lokasi.id_lokasi = jenis_kendaraan.lokasi_id", "left");
+        $this->db->like("nama_lokasi",$keywoard);
+        $this->db->or_like("jenis_kendaraan",$keywoard);
+
+        return $this->db->get()->num_rows();
+
+    }
+
+    public function getKendaraanKeywoard($keywoard,$awalData,$jumlahDataPerhalaman){
+
+        $query = $this->db->query("SELECT * FROM jenis_kendaraan
+        JOIN lokasi ON lokasi.id_lokasi = jenis_kendaraan.lokasi_id 
+        WHERE
+        nama_lokasi LIKE '$keywoard' OR
+        jenis_kendaraan LIKE '$keywoard'
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
+        
+
+    }
+    public function getAllKendaraan($awalData,$jumlahDataPerhalaman){
+
+        $query = $this->db->query("SELECT * FROM jenis_kendaraan
+        JOIN lokasi ON lokasi.id_lokasi = jenis_kendaraan.lokasi_id 
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
+    }
+    public function row_kendaraan(){
+
+        $this->db->select("*");
+        $this->db->from("jenis_kendaraan");
+        $this->db->join("lokasi", "lokasi.id_lokasi = jenis_kendaraan.lokasi_id", "left");
+        return $this->db->get()->num_rows();
+    }
+
+    
+
     public function tambahKendaraan(){
 
         $data = [
@@ -38,10 +79,7 @@ class kendaraan_model extends CI_model{
         $this->db->update("jenis_kendaraan", $data);
     }
 
-    public function getByNama(){
-
-        return $this->db->get_where('user', ["hak_akses" => $this->session->userdata["hak_akses"]])->row_array();
-    }
+   
 }
 
 ?>

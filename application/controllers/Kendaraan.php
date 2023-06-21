@@ -22,19 +22,65 @@ class Kendaraan extends CI_Controller{
 
     public function index(){
 
+
         $data['judul'] = "Halaman Kendaraan";
-        $data['lokasi'] = ['1', '2', '3'];
-        $data['kendaraan'] = $this->kendaraan_model->getKendaraan();
-        $data['nama'] = $this->kendaraan_model->getByNama();
-        $this->load->view("templates/header",$data);
-        $this->load->view("kendaraan/index",$data);
-        $this->load->view("templates/footer");
+        $jumlahDataPerhalaman = 4;
+        $jmlh = $this->kendaraan_model->row_kendaraan();
+        $jumlahData = $jmlh;
+        $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
+        $halamanAktif = ( isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+        $awalData = ( $jumlahDataPerhalaman * $halamanAktif ) - $jumlahDataPerhalaman;
+        $data['jumlahHalaman1'] = $jumlahHalaman;    
+        $data['halamanAktif1'] = $halamanAktif;    
+        $data['jumlahDataPerhalaman'] = $jumlahDataPerhalaman; 
+        $data['kendaraan'] = $this->kendaraan_model->getAllKendaraan($awalData,$jumlahDataPerhalaman);
+        $keywoard = $this->input->post('keywoardd');
+
+        if($this->input->post('submitt')){
+          
+            $this->session->set_userdata('keywoardkendaraan',$keywoard);
+               
+            if($keywoard == null){
+                $this->session->unset_userdata('keywoardkendaraan');
+                $this->session->unset_userdata('jumlahhalamankendaraan');
+                $data['kendaraan'] = $this->kendaraan_model->getAllKendaraan($awalData,$jumlahDataPerhalaman);
+            }else{
+                $jmlh1 = $this->kendaraan_model->row_kendaraan_keywoard($keywoard);
+                $jumlahData1 = $jmlh1;
+                $jumlahHalaman1 = ceil($jumlahData1 / $jumlahDataPerhalaman);
+                $this->session->set_userdata('jumlahhalamankendaraan',$jumlahHalaman1);
+                $jumlahHalaman11 = $this->session->userdata('jumlahhalamankendaraan');
+                $data['jumlahHalaman1'] = $jumlahHalaman11;
+                $data['kendaraan'] = $this->kendaraan_model->getKendaraanKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+
+            }
+            
+            $this->load->view("templates/header",$data);
+            $this->load->view("kendaraan/index",$data);
+            $this->load->view("templates/footer");
+
+        }else{
+           
+            if($this->session->userdata('keywoardkendaraan') !== null){
+                $keywoard = $this->session->userdata('keywoardkendaraan');
+                $data['kendaraan'] = $this->kendaraan_model->getKendaraanKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+
+            }
+            
+            $this->load->view("templates/header",$data);
+            $this->load->view("kendaraan/index",$data);
+            $this->load->view("templates/footer");
+
+        }
+
     }
+
+    
 
     public function tambah(){
 
         $data['judul'] = "Halaman Tambah Kendaraan";
-        $data['lokasi'] = $this->lokasi_model->getAllLokasi();
+        $data['lokasi'] = $this->lokasi_model->getAllLokasi2();
         $this->form_validation->set_rules('lokasiid','Lokasi ID', 'required|numeric');
         $this->form_validation->set_rules('jeniskendaraan',' Jenis Kendaraan', 'required');
         $this->form_validation->set_rules('tarif',' Tarif Parkir', 'required|numeric');

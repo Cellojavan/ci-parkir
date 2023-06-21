@@ -111,8 +111,7 @@ class P_parkir_model extends CI_model{
         $this->db->from("pengelolaan_parkir");
         $this->db->join("jenis_kendaraan", "jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id", "left");
         $this->db->join("lokasi", "lokasi.id_lokasi = pengelolaan_parkir.lokasi_id", "left");
-        $this->db->like("tgl_in",$dari);
-        $this->db->or_like("tgl_in",$ke);
+        $this->db->where('tgl_in BETWEEN "'. date('Y-m-d H:i:s', strtotime($dari.' 00:00:00')). '" and "'. date('Y-m-d H:i:s', strtotime($ke.' 23:59:59')).'"');
         return $this->db->get()->num_rows();
     
     }
@@ -140,15 +139,14 @@ class P_parkir_model extends CI_model{
     }
     public function get_key1($dari,$ke,$awalData, $jumlahDataPerhalaman){
         
-        $query = $this->db->query("SELECT * FROM pengelolaan_parkir
-        JOIN jenis_kendaraan ON jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id
-        JOIN lokasi ON lokasi.id_lokasi = pengelolaan_parkir.lokasi_id 
-        WHERE 
-        tgl_in LIKE '$dari%' OR
-        tgl_in LIKE '$ke%'
-        ORDER BY tgl_in DESC
-        LIMIT $awalData, $jumlahDataPerhalaman ");
-        return $query->result_array();
+        $this->db->select("*");
+        $this->db->from("pengelolaan_parkir");
+        $this->db->join("jenis_kendaraan", "jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id", "left");
+        $this->db->join("lokasi", "lokasi.id_lokasi = pengelolaan_parkir.lokasi_id", "left");
+        $this->db->where('tgl_in BETWEEN "'. date('Y-m-d H:i:s', strtotime($dari.' 00:00:00')). '" and "'. date('Y-m-d H:i:s', strtotime($ke.' 23:59:59')).'"');
+        $this->db->order_by("tgl_in", "DESC");
+        $this->db->limit($jumlahDataPerhalaman,$awalData);
+        return $this->db->get()->result_array();
     }
 
   
@@ -208,14 +206,13 @@ class P_parkir_model extends CI_model{
 
     public function TotalRows1($dari,$ke,$hasil){
 
-        $query = $this->db->query("SELECT * FROM pengelolaan_parkir
-        JOIN jenis_kendaraan ON jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id
-        JOIN lokasi ON lokasi.id_lokasi = pengelolaan_parkir.lokasi_id 
-        WHERE 
-        id_lokasi LIKE '$hasil' AND
-        tgl_in LIKE '$dari%' AND
-        tgl_in LIKE '$ke%'");
-        return $query->num_rows();
+        $this->db->select("*");
+        $this->db->from("pengelolaan_parkir");
+        $this->db->join("jenis_kendaraan", "jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id", "left");
+        $this->db->join("lokasi", "lokasi.id_lokasi = pengelolaan_parkir.lokasi_id", "left");
+        $this->db->where('tgl_in BETWEEN "'. date('Y-m-d H:i:s', strtotime($dari.' 00:00:00')). '" and "'. date('Y-m-d H:i:s', strtotime($ke.' 23:59:59')).'"');
+        $this->db->like("id_lokasi",$hasil);
+        return $this->db->get()->num_rows();
     }
     public function get_keyword22($hasil,$keywoard,$awalData,$jumlahDataPerhalaman){
         
@@ -230,19 +227,17 @@ class P_parkir_model extends CI_model{
         return $query->result_array();
     }
     public function get_key22($hasil,$dari,$ke,$awalData,$jumlahDataPerhalaman){
-        
-        $query = $this->db->query("SELECT * FROM pengelolaan_parkir
-        JOIN jenis_kendaraan ON jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id
-        JOIN lokasi ON lokasi.id_lokasi = pengelolaan_parkir.lokasi_id 
-        WHERE 
-        id_lokasi LIKE '$hasil' AND
-        tgl_in LIKE '$dari%' AND
-        tgl_in LIKE '$ke%'
-        ORDER BY tgl_in DESC
-        LIMIT $awalData, $jumlahDataPerhalaman ");
-        return $query->result_array();
+       
+        $this->db->select("*");
+        $this->db->from("pengelolaan_parkir");
+        $this->db->join("jenis_kendaraan", "jenis_kendaraan.id_jenis_kendaraan = pengelolaan_parkir.jenis_kendaraan_id", "left");
+        $this->db->join("lokasi", "lokasi.id_lokasi = pengelolaan_parkir.lokasi_id", "left");
+        $this->db->where('tgl_in BETWEEN "'. date('Y-m-d H:i:s', strtotime($dari.' 00:00:00')). '" and "'. date('Y-m-d H:i:s', strtotime($ke.' 23:59:59')).'"');
+        $this->db->like("id_lokasi",$hasil);
+        $this->db->order_by("tgl_in", "DESC");
+        $this->db->limit($jumlahDataPerhalaman,$awalData);
+        return $this->db->get()->result_array();
     }
-
     public function get_lokasi11($hasil,$awalData,$jumlahDataPerhalaman){
         
         $query = $this->db->query("SELECT * FROM pengelolaan_parkir

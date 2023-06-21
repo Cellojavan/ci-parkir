@@ -18,11 +18,47 @@ class User extends CI_Controller {
     public function index(){
 
         $data['judul'] = 'Halaman User';
-        $data['user'] = $this->user_model->getAllUser();
         $data['nama'] = $this->user_model->getByNama();
-        $this->load->view('templates/header', $data);
-        $this->load->view('user/index', $data);
-        $this->load->view('templates/footer');
+
+        $jumlahDataPerhalaman = 4;
+        $jmlh = $this->user_model->row_user();
+        $jumlahData = $jmlh;
+        $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
+        $halamanAktif = ( isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+        $awalData = ( $jumlahDataPerhalaman * $halamanAktif ) - $jumlahDataPerhalaman;
+        $data['jumlahHalaman'] = $jumlahHalaman;    
+        $data['halamanAktif'] = $halamanAktif;    
+        $data['jumlahDataPerhalaman'] = $jumlahDataPerhalaman;    
+
+        $data['user'] = $this->user_model->getAllUser($awalData,$jumlahDataPerhalaman);
+        $keywoard = $this->input->post('keywoard');
+
+        if($this->input->post('submit')){
+            $this->session->set_userdata('keywoarduser',$keywoard);
+            $jumlahDataPerhalaman = 4;
+            $jmlh1 = $this->user_model->row_user_keywoard($keywoard);
+            $jumlahData = $jmlh1;
+            $jumlahHalaman = ceil($jumlahData / $jumlahDataPerhalaman);
+            $this->session->set_userdata('jumlahhalamanuser',$jumlahHalaman);
+            $halamanAktif = ( isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+            $awalData = ( $jumlahDataPerhalaman * $halamanAktif ) - $jumlahDataPerhalaman;
+            $data['jumlahHalaman'] = $jumlahHalaman;    
+            $data['halamanAktif'] = $halamanAktif;
+
+            $data['user'] = $this->user_model->getUserKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+            $this->load->view('templates/header', $data);
+            $this->load->view('user/index', $data);
+            $this->load->view('templates/footer');
+
+        }else{
+            $keywoard = $this->session->userdata('keywoarduser');
+            $jumlahHalaman = $this->session->userdata('jumlahhalamanuser');
+            $data['jumlahHalaman'] = $jumlahHalaman;    
+            $data['user'] = $this->user_model->getUserKeywoard($keywoard,$awalData,$jumlahDataPerhalaman);
+            $this->load->view('templates/header', $data);
+            $this->load->view('user/index', $data);
+            $this->load->view('templates/footer');
+        }
 
     }
 

@@ -3,12 +3,35 @@
 class petugas_model extends CI_model{
 
 
-    public function getPetugas(){
+    public function getAllPetugas($awalData,$jumlahDataPerhalaman){
 
-        $this->db->select("*");
-        $this->db->from("petugas");
-        $this->db->join("lokasi", "lokasi.id_lokasi = petugas.lokasi_id", "left");
-        return $this->db->get()->result_array();
+        $query = $this->db->query("SELECT * FROM petugas
+        JOIN lokasi ON lokasi.id_lokasi = petugas.lokasi_id 
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
+    }
+    public function row_petugas(){
+        return $query = $this->db->get('petugas')->num_rows();;
+
+    }
+    public function row_petugas_keywoard($keywoard){
+        $query = $this->db->query("SELECT * FROM petugas
+        JOIN lokasi ON lokasi.id_lokasi = petugas.lokasi_id 
+        WHERE
+        nama_lokasi LIKE '$keywoard' OR
+        nama_petugas LIKE '$keywoard'
+        ");
+        return $query->num_rows();
+
+    }
+    public function getPetugasKeywoard($keywoard,$awalData,$jumlahDataPerhalaman){
+        $query = $this->db->query("SELECT * FROM petugas
+        JOIN lokasi ON lokasi.id_lokasi = petugas.lokasi_id 
+        WHERE
+        nama_lokasi LIKE '$keywoard' OR
+        nama_petugas LIKE '$keywoard'
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
     }
     public function tampilPetugas(){
         $keywoard = 'petugas';

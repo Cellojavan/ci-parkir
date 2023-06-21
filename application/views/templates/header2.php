@@ -189,6 +189,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
          </p>
          </a>       
      </li>
+     <li class="nav-item">
+         <a href="<?= base_url()?>laporan" <?=$this->uri->segment(1) == 'laporan' ? 'class="nav-link active"' : 'class="nav-link"' ?>>
+         <i class="fas fa-file">&nbsp&nbsp</i>
+         <p>
+             Laporan
+         </p>
+         </a>       
+     </li>
    <?php } ?>
    <?php if($this->session->userdata("hak_akses") == "manager") { ?>
     <li class="nav-item">
@@ -215,6 +223,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
          </p>
          </a>       
      </li>
+     <li class="nav-item">
+         <a href="<?= base_url()?>laporan" <?=$this->uri->segment(1) == 'laporan' ? 'class="nav-link active"' : 'class="nav-link"' ?>>
+         <i class="fas fa-file">&nbsp&nbsp</i>
+         <p>
+             Laporan
+         </p>
+         </a>       
+     </li>
    <?php } ?>
    <?php if($this->session->userdata("hak_akses") == "petugas") { ?>
     <li class="nav-item">
@@ -230,6 +246,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
          <i class="fas fa-parking">&nbsp&nbsp</i>
          <p>
              Parkir
+         </p>
+         </a>       
+     </li>
+     <li class="nav-item">
+         <a href="<?= base_url()?>laporan" <?=$this->uri->segment(1) == 'laporan' ? 'class="nav-link active"' : 'class="nav-link"' ?>>
+         <i class="fas fa-file">&nbsp&nbsp</i>
+         <p>
+             Laporan
          </p>
          </a>       
      </li>

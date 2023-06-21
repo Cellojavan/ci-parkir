@@ -3,11 +3,37 @@
 class lokasi_model extends CI_model{
 
 
-    public function getAllLokasi(){
+    public function getAllLokasi($awalData,$jumlahDataPerhalaman){
 
-       return $query = $this->db->get('lokasi')->result_array();
+        $query = $this->db->query("SELECT * FROM lokasi
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
+    }
+    public function getAllLokasi2(){
+
+        $query = $this->db->query("SELECT * FROM lokasi
+        ");
+        return $query->result_array();
     }
 
+    public function row_lokasi(){
+        return $query = $this->db->get('lokasi')->num_rows();;
+
+    }
+    public function row_lokasi_keywoard($keywoard){
+        $query = $this->db->query("SELECT * FROM lokasi
+        WHERE
+        nama_lokasi LIKE '$keywoard' ");
+        return $query->num_rows();
+
+    }
+    public function getLokasiKeywoard($keywoard,$awalData,$jumlahDataPerhalaman){
+        $query = $this->db->query("SELECT * FROM lokasi
+        WHERE
+        nama_lokasi LIKE '$keywoard'
+        LIMIT $awalData, $jumlahDataPerhalaman ");
+        return $query->result_array();
+    }
     public function tambahLokasi(){
 
         $data = [

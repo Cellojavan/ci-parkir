@@ -89,7 +89,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <form action="" method="post">
+                    <form action="" method="get">
                     <div class="row g-3 align-items-center">
                     
                     <div class="col-auto">
@@ -115,7 +115,6 @@
 
                 <?php if($this->session->userdata("hak_akses") == "petugas") {?>
                   <a href="<?= base_url('')?>P_parkir/tambah" class="btn btn-primary mb-3 mt-2">Masuk</a>
-                  <?php $id= 1;?>
                   <nav aria-label="...">
                 <ul class="pagination">
                   <?php if($this->input->post('submit') !== null) : ?>
@@ -124,23 +123,19 @@
                   <?php if($this->input->post('cari') !== null) :?>
                   <?php redirect(base_url('P_parkir?halaman=1'))?>
                   <?php endif?>
-                  
                 <?php if($halamanAktif1 > 1) : ?>
                   <li class="page-item">
                     <a class="page-link" href="?halaman=<?=$halamanAktif1 - 1;?>">&laquo <span class="sr-only">(current)</span></a>
                   </li>
                 <?php endif?>
 
-                
                <?php ?>
                 <?php for( $i = 1; $i <= $jumlahHalaman1; $i++ ) :?>
                 <?php if($i == $halamanAktif1 ) :?>
-                  <?php $id = ($halamanAktif1 * 2) - 1; ?>
                   <li class="page-item active">
                     <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
                   </li>
                 <?php else :?>
-                  <?php $id = ($halamanAktif1 * 2) - 1; ?>
                   <li class="page-item">
                     <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
                   </li>
@@ -154,6 +149,7 @@
                 <?php endif?>
                 </ul>
                 </nav>
+                <?php $id = ($jumlahDataPerhalaman * $halamanAktif1) - 3; ?>
                 <?php } ?>
 
 
@@ -165,7 +161,6 @@
 
 
                 <?php if($this->session->userdata("hak_akses") != "petugas") {?>
-                  <?php $id= 1;?>
 
                 <nav aria-label="...">
                 <ul class="pagination">
@@ -184,12 +179,10 @@
                <?php ?>
                 <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) :?>
                 <?php if($i == $halamanAktif ) :?>
-                  <?php $id = ($halamanAktif * 2) - 1; ?>
                   <li class="page-item active">
                     <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
                   </li>
                 <?php else :?>
-                  <?php $id = ($halamanAktif * 2) - 1; ?>
                   <li class="page-item">
                     <a class="page-link" href="?halaman=<?=$i;?>"><?=$i;?> <span class="sr-only">(current)</span></a>
                   </li>
@@ -202,6 +195,10 @@
                 <?php endif?>
                 </ul>
                 </nav>
+                
+
+                <?php $id = ($jumlahDataPerhalaman * $halamanAktif) - 3; ?>
+
                 <?php } ?>
 
                 
@@ -241,6 +238,15 @@
                       </div>
                     
                       <?php endif ;?>
+                      <?php
+                    function rupiah($angka){
+                        $duit = "Rp" . number_format($angka, '0', '', '.');
+                        return $duit;
+
+                    }
+                    
+                    ?>
+
                           <?php foreach($parkir as $pkr) : ?>
                           <tr>
                               <td><?= $id++?></td>
@@ -249,16 +255,16 @@
                               <td><img src="<?= base_url().'/dist/img/fotomasuk/'.$pkr['foto_in']?>" width="150" ></td>
                               <td><?= $pkr['tgl_out'] ?></td>
                               <td><?= $pkr['petugas_out'] ?></td>
-                              <td><?php if($pkr['foto_out'] == null) :?>
-                                  <img src="<?= base_url().'/dist/img/fotoout/user_blank.png'?>" width="80" center ></td>
-                              <td><?php else:?>
-                                  <img src="<?= base_url().'/dist/img/fotoout/'.$pkr['foto_out']?>" width="150" ></td>
-                              <td><?php endif?>
+                              <?php if($pkr['foto_out'] == null) :?>
+                                <td><img src="<?= base_url().'/dist/img/fotoout/user_blank.png'?>" width="80" center ></td>
+                                <?php else:?>
+                                  <td><img src="<?= base_url().'/dist/img/fotoout/'.$pkr['foto_out']?>" width="150" ></td>
+                              <?php endif?>
                               <td><?= $pkr['nopol'] ?></td>
                               <td><?= $pkr['nama_lokasi'] ?></td>
                               <td><?= $pkr['jenis_kendaraan'] ?></td>
                             
-                              <td><?= $pkr['tarif_parkir']?></td>
+                              <td><?= rupiah($pkr['tarif_parkir'])?></td>
                               <td>
                                 <?php if($pkr['status'] == 'Done') {?>
                                   <small class="form-text text-success"><?= $pkr['status'] ?></small>
